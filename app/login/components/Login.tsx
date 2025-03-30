@@ -63,14 +63,10 @@ export const Login = ({
     inviteToken = searchParams["inviteToken"];
   }
 
-  // 优先使用环境变量中的站点 URL
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  const protocol = host?.includes("localhost") ? "http" : "https";
-  const redirectUrl = siteUrl 
-    ? `${siteUrl}/auth/callback`
-    : `${protocol}://${host}/auth/callback`;
+  // 强制使用生产环境的 URL
+  const redirectUrl = "https://headshots-starter-clone-mqof.vercel.app/auth/callback";
 
-  console.log({ redirectUrl, siteUrl, host });
+  console.log({ redirectUrl });
 
   const signInWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
