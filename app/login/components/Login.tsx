@@ -63,10 +63,14 @@ export const Login = ({
     inviteToken = searchParams["inviteToken"];
   }
 
+  // 优先使用环境变量中的站点 URL
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   const protocol = host?.includes("localhost") ? "http" : "https";
-  const redirectUrl = `${protocol}://${host}/auth/callback`;
+  const redirectUrl = siteUrl 
+    ? `${siteUrl}/auth/callback`
+    : `${protocol}://${host}/auth/callback`;
 
-  console.log({ redirectUrl });
+  console.log({ redirectUrl, siteUrl, host });
 
   const signInWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
